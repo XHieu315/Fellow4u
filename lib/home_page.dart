@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'my_trips_page.dart';
 import 'guide_page.dart';
 import 'tour_detail_page.dart';
+import 'profile_page.dart';
+import 'blog_detail_page.dart';
 import 'search_page.dart';
 import 'see_more_page.dart';
+import 'chat_page.dart';
+import 'notifications_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -158,6 +162,50 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: _buildBottomNav(),
+    );
+  }
+
+  Widget _buildTrendingCard(BuildContext context, String imagePath, String title, String subtitle, String likes) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const BlogDetailPage()));
+      },
+      child: Container(
+        width: 160,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(color: Colors.black12, blurRadius: 5),
+          ],
+        ),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+              child: Image.asset(imagePath, height: 100, width: 160, fit: BoxFit.cover),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(subtitle, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      const Icon(Icons.favorite, color: Colors.red, size: 12),
+                      const SizedBox(width: 4),
+                      Text(likes, style: const TextStyle(fontSize: 10)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -836,9 +884,13 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: List.generate(travelNews.length, (index) {
           final news = travelNews[index];
-          return Container(
-            margin: const EdgeInsets.only(bottom: 15),
-            decoration: BoxDecoration(
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const BlogDetailPage()));
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 15),
+              decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               boxShadow: const [
                 BoxShadow(color: Colors.black12, blurRadius: 5),
@@ -906,6 +958,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
+              ),
             ),
           );
         }),
@@ -926,6 +979,21 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const MyTripsPage()),
+          );
+        } else if (index == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ChatPage()),
+          );
+        } else if (index == 3) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NotificationsPage()),
+          );
+        } else if (index == 4) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProfilePage()),
           );
         }
       },
